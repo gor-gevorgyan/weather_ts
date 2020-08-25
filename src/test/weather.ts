@@ -7,7 +7,7 @@ export const checkAPI = async (country_name:string) => {
         let weatherAPI = new OpenWeatherApi();
         let data = await weatherAPI.get({q: country_name});
 
-        return data.data.name.toLowerCase();
+        return data.data.name;
     } catch (e) {
         return false;
     }

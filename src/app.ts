@@ -1,7 +1,5 @@
 'use strict';
 
-require('dotenv').config();
-
 import fastify, {FastifyInstance, FastifyServerFactory, RouteShorthandOptions} from 'fastify';
 import { bootstrap } from 'fastify-decorators';
 import { Server, IncomingMessage, ServerResponse } from 'http';

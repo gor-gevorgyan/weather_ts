@@ -1,0 +1,36 @@
+{% extends 'layout.twig' %}
+
+{% block body %}
+    <div class="container col-8 mt-3">
+        {% if city_exists == false %}
+            <div class="alert alert-danger text-center" role="alert">{{ city_name }} doesn't exists</div>
+        {% else %}
+            <div>
+                <p>Country Name: {{ city_data.name }}</p>
+                <P>Data: {{ city_data.main.temp }} <span>&#8451;</span> <span title="{{ city_data.weather.0.description }}"><img src="{{ weather_icon(city_data.weather.0.icon) }}" alt="{{ city.data.weather.0.description }}"/></span></P>
+                <p>Date: {{ date_format(city_data.dt, 'YYYY-MM-DD HH:mm:ss') }}</p>
+            </div>
+        {% endif %}
+        <table class="table table-dark history">
+            <caption>History</caption>
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">County Name</th>
+                    <th scope="col">Temp</th>
+                    <th scope="col">Date</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for city in history %}
+                <tr>
+                    <td scope="row">{{ city.id }}</td>
+                    <td>{{ city.data.name }}</td>
+                    <td>{{ city.data.main.temp }} <span>&#8451;</span> <span title="{{ city.data.weather.0.description }}"><img src="{{ weather_icon(city.data.weather.0.icon) }}" alt="{{ city.data.weather.0.description }}"/></span></td>
+                    <td>{{ city.created_at }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}

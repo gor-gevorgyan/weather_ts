@@ -1,5 +1,5 @@
-import {Entity, PrimaryGeneratedColumn, Column} from "typeorm";
-
+import {Entity, PrimaryGeneratedColumn, Column, ManyToOne, JoinColumn} from "typeorm";
+import {User} from "./User";
 
 @Entity()
 export class History {
@@ -25,4 +25,8 @@ export class History {
 
     @Column()
     created_at: string;
+
+    @ManyToOne(() => User, (user: User) => user.history)
+    @JoinColumn({name: "user_id"})
+    user: Promise<User>
 }

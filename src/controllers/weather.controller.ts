@@ -21,9 +21,9 @@ export default class WeatherController {
         }
 
         const repository = await createConnection();
-        let user = repository.getRepository(User);
+        let userRepository = repository.getRepository(User);
 
-        let user_data = await user.findOne({
+        let user_data = await userRepository.findOne({
             where: {
                 ip: request.ip
             }
@@ -31,27 +31,19 @@ export default class WeatherController {
 
         let date = moment();
 
-        if (typeof user_data == "undefined") {
+        if (typeof user_data === undefined) {
             user_data = new User();
 
             user_data.created_at = date.format('YYYY-MM-DD HH:mm:ss');
             user_data.ip = request.ip;
 
-            user_data = await user.save(user_data);
+            user_data = await userRepository.save(user_data);
         }
 
         let city_exists: boolean = false;
         let city_data: DefaultObject = {};
         let historyRepository = repository.getRepository(History);
-
-        let history: History[] | [] = await historyRepository.find({
-            where: {
-                user_id: user_data.id
-            },
-            order: {
-                id: "DESC"
-            }
-        });
+        let history = await user_data.history;
 
         try {
             let weatherAPI = new OpenWeatherApi();
